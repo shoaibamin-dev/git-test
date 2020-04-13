@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <style>
+            html {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .row {
+                width: 100%;
+                height: auto;
+                margin: 0;
+                padding: 0;
+            }
+            TD {
+                table-layout: fixed;
+                vertical-align: middle;
+                text-align: center;
+                margin: 0;
+                padding: 0;
+            }
+            .evaluateHeight {
+                width: 33.33327%;
+            }
+            .imgWrapper {
+                position: relative;
+                margin: 0;
+                padding: 0;
+            }
+            p {
+                margin: 0;
+                padding: 0;
+            }
+            img {
+                position: relative;
+                vertical-align: middle;
+                text-align: center;
+            }
+            
+        </style>
+
+        <script type="text/javascript" src="jquery.js"></script>
+
+    </head>
+
+
+
+
+    <body>
+      <TABLE>
+       <TBODY>
+        <TR class="row">
+
+            <TD class="evaluateHeight">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut mollitia officiis ratione hic minima a quia, eveniet soluta earum et? Illum obcaecati quibusdam tempora eius soluta praesentium animi excepturi nostrum.<br><br><p>The height of the last row's tallest text column is:</p><br><p id="heightOfLASTevaluateHeight"></p></p>
+            </TD>
+
+            <TD class="noLimitBackgroundPNGAcontainer">
+                <div class="imgWrapper">
+                    <img src="image.jpg">
+                </div>
+            </TD>
+
+            <TD class="evaluateHeight">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate mollitia porro, odio dignissimos nesciunt sed magni nostrum quia quo enim ducimus corrupti dolores debitis aspernatur. Inventore eveniet quaerat magnam eaque. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur, tenetur eaque repellendus alias ab perspiciatis dolor, quas ipsa, molestiae voluptas maiores! Distinctio eos dolorem earum ipsam iusto neque nam perspiciatis?</p>
+            </TD>
+
+        </TR>
+
+        <TR class="row">
+
+            <TD class="evaluateHeight">
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi illum ipsum odio accusantium quae earum totam magnam, ipsam veniam vel eaque adipisci, facilis illo delectus dolores quo. Laboriosam, aliquam tempora. Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias consequatur vitae cum error, laudantium expedita debitis. Modi rerum voluptas optio, at accusantium laborum? Aspernatur at autem rerum sit, obcaecati fuga. Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus quasi ab eum nostrum iusto odit nemo non obcaecati placeat tenetur id perspiciatis dolor quaerat laudantium a, temporibus fugiat voluptates aliquid?</p>
+            </TD>
+
+            <TD class="noLimitBackgroundPNGAcontainer imgWrapper">
+                <div class="imgWrapper">
+                    <img src="image2.jpg">
+                </div>
+            </TD>
+
+            <TD class="evaluateHeight">
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim qui, harum quis ratione expedita magni sit aut praesentium itaque atque sed voluptatum. Dignissimos, iusto. Optio, quis quam? Facere, illo natus.</p>
+            </TD>
+
+        </TR>
+       </TBODY>
+      </TABLE>
+
+
+
+
+
+
+        <script>
+
+    window.onload = function() {
+
+
+        $('.row').find( '.noLimitBackgroundPNGAcontainer' ).each(function() {
+
+
+
+            // Get on screen image
+            var screenImage = $(this).find( '.imgWrapper>img' );
+
+            // Create new offscreen image to test
+            var theImage = new Image();
+            theImage.src = screenImage.attr("src");
+
+            // Get accurate measurements from that.
+            var imageWidth = theImage.width;
+            var imageHeight = theImage.height;
+
+
+
+
+
+
+
+
+
+            //I need the above NOT to happen again and again on resize, and the code below TO HAPPPEN again and again on resize.
+            $(this).find( '.imgWrapper>img' ).each(function() {
+
+                var maxHeight = 0;
+                
+                $(this).closest('.row').find('.evaluateHeight>p').each(function checkHeight(){
+                    if($(this).height() > maxHeight){
+                        maxHeight = $(this).height();
+                    };
+                });
+
+
+                var actualIMGwidthWhenConstrainedByColumnHeight  = maxHeight * (imageWidth / imageHeight);
+
+                var imgContainerWidth = $(this).closest(".noLimitBackgroundPNGAcontainer").width();
+
+                var actualIMGheightWhenConstrainedByColumnWidth =  ($(imgContainerWidth)) * (($(imageHeight)) / ($(imageWidth)));
+
+                document.getElementById("heightOfLASTevaluateHeight").innerHTML = maxHeight;
+
+
+                if (imgContainerWidth > actualIMGwidthWhenConstrainedByColumnHeight) {
+                    $(this).closest(".imgWrapper").width(actualIMGwidthWhenConstrainedByColumnHeight);
+                    $(this).width(actualIMGwidthWhenConstrainedByColumnHeight);                    
+                    $(this).closest(".imgWrapper").height(maxHeight);
+                    $(this).height(maxHeight);
+                } 
+                else {
+                    $(this).closest(".imgWrapper").width('100%');
+                    $(this).width('100%');
+                    $(this).closest(".imgWrapper").height(actualIMGheightWhenConstrainedByColumnWidth);
+                    $(this).height(actualIMGheightWhenConstrainedByColumnWidth);
+                };
+            });
+        });
+
+
+        $('.imgWrapper').css("top", "auto");
+        $('.imgWrapper>img').css("position", "static");
+
+
+    };
+        </script>
+    </body>
+      
+</html>
